@@ -1,6 +1,6 @@
 import telebot
 
-botJujutsuKaisen = telebot.TeleBot('8273839564:AAEa9BO7ZBGks_7zMPqEPIKx-ky2Yr70KT8')
+botJujutsuKaisen = telebot.TeleBot('')
 
 from telebot import types
 
