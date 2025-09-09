@@ -138,7 +138,7 @@ photos = {
     },
     "5": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fifth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fifth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -146,7 +146,7 @@ photos = {
     },
     "6": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Sixth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Sixth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -154,7 +154,7 @@ photos = {
     },
     "7": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Seventh_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Seventh_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -162,7 +162,7 @@ photos = {
     },
     "8": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Eighth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Eighth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -170,7 +170,7 @@ photos = {
     },
     "9": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ninth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ninth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -178,7 +178,7 @@ photos = {
     },
     "10": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Tenth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Tenth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -186,7 +186,7 @@ photos = {
     },
     "11": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Eleventh_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Eleventh_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -194,7 +194,7 @@ photos = {
     },
     "12": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Twelfth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Twelfth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -202,7 +202,7 @@ photos = {
     },
     "13": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Thirteenth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Thirteenth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -210,7 +210,7 @@ photos = {
     },
     "14": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fourteenth_Tom.jpg",
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fourteenth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
@@ -220,10 +220,6 @@ photos = {
 
 user_state = {} 
 user_text = {}
-'''toms_photo_bytes = {}
-for key, value in tom.items():
-    with open(value["photo"], "rb") as f:
-        toms_photo_bytes[key] = BytesIO(f.read())'''
         
 dif_photos = {}
 for key, value in photos.items():
@@ -246,13 +242,13 @@ for key, value in tom.items():
 
 @botJujutsuKaisen.message_handler(commands=['start'])
 def startBot(message):
-  first_mess = f"<b>{message.from_user.first_name}</b>, привет!\nДанный бот отслеживает пополнение коллекции по манге 'Магическая битва', сохраняет последнюю прочитанную страницу для пользователя и сравнивает цены на маркетплейсах для экономной покупки. Желаете протестировать бота?"
-  markup = types.InlineKeyboardMarkup()
-  button_yes = types.InlineKeyboardButton(text = 'Да', callback_data='yes')
-  button_no = types.InlineKeyboardButton(text = 'Нет', callback_data='no')
-  markup.add(button_yes)
-  markup.add(button_no)
-  botJujutsuKaisen.send_message(message.chat.id, first_mess, parse_mode='html', reply_markup=markup)
+    first_mess = f"<b>{message.from_user.first_name}</b>, привет!\nДанный бот отслеживает пополнение коллекции по манге 'Магическая битва', сохраняет последнюю прочитанную страницу для пользователя и сравнивает цены на маркетплейсах для экономной покупки. Желаете протестировать бота?"
+    markup = types.InlineKeyboardMarkup()
+    button_yes = types.InlineKeyboardButton(text = 'Да', callback_data='yes')
+    button_no = types.InlineKeyboardButton(text = 'Нет', callback_data='no')
+    markup.add(button_yes)
+    markup.add(button_no)
+    botJujutsuKaisen.send_message(message.chat.id, first_mess, parse_mode='html', reply_markup=markup)
   
 def handle_yes (chat_id):
     markup = types.InlineKeyboardMarkup()
@@ -270,7 +266,11 @@ def handle_saving (chat_id):
   
 def handle_reading (chat_id): 
     user_state[chat_id] = "wait_answer_number"
-    botJujutsuKaisen.send_message(chat_id, "Давайте я напомню вам сохранённый момент:" + "\n")
+    markup = types.InlineKeyboardMarkup()
+    button_menu = types.InlineKeyboardButton(text = 'Вернуться в меню', callback_data='menu')
+    markup.add(button_menu)
+    answer_text = user_text.get(chat_id, "Пока нет сохранённых заметок")
+    botJujutsuKaisen.send_message(chat_id, f"{answer_text}", reply_markup=markup)
   
 def handle_price (chat_id): 
     user_state[chat_id] = "wait_writting"
@@ -287,18 +287,22 @@ def handle_choice_marketplace (chat_id):
 def handle_yandex_place (chat_id): 
     info = []
     key = user_state.get(chat_id)  
-    #user_state[chat_id] = "wait_message"
     photo = dif_photos[key]["yandex"]
     soup = toms_soup[key]["yandex"]
     price_tag = soup.find('span', class_='ds-text_color_price-term')
     price_tag_1 = soup.find('span', class_='ds-text ds-text_weight_reg ds-text_color_text-secondary ds-text_typography_text ds-text_text_tight ds-text_text_reg')
+    markup = types.InlineKeyboardMarkup()
+    button_menu = types.InlineKeyboardButton(text = 'Вернуться в меню', callback_data='menu')
+    button_another_market = types.InlineKeyboardButton(text = 'Выбрать другой маркетплейс', callback_data='another_market')
+    button_repeat = types.InlineKeyboardButton(text = 'Повторить процесс', callback_data='repeat')
+    markup.add(button_menu, button_another_market, button_repeat)
     if price_tag and price_tag_1:
         price_1_rub = price_tag.get_text(strip=True)
         price_2_rub = price_tag_1.get_text(strip=True)
         info.append(f"Цена: {price_1_rub} ₽ с картой 'Яндекс Пэй'" + "\n" + f"Цена: {price_2_rub} ₽ без карты" + "\n" + "\n" + "Приятных покупок!)")
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption=info)
+        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption=info, reply_markup=markup)
     else:
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="Цена не найдена 😢")
+        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="Данная манга не продаётся или закончилась на складе 😢", reply_markup=markup)
         
 def handle_ozon_place (chat_id):
     info = []
@@ -314,23 +318,32 @@ def handle_ozon_place (chat_id):
     price = soup.select_one('span.price').text.strip()
     info.append(f"Цена: {product_title} рублей с 'Ozon картой'" + "\n" + f"Цена: {price} рублей без карты")
     botJujutsuKaisen.send_message(chat_id, info)'''
+    markup = types.InlineKeyboardMarkup()
+    button_menu = types.InlineKeyboardButton(text = 'Вернуться в меню', callback_data='menu')
+    button_another_market = types.InlineKeyboardButton(text = 'Выбрать другой маркетплейс', callback_data='another_market')
+    button_repeat = types.InlineKeyboardButton(text = 'Повторить процесс', callback_data='repeat')
+    markup.add(button_menu, button_another_market, button_repeat)
     if price_tag:
         price_1_rub = price_tag.get_text(strip=True)
         price_2_rub = 100   
         info.append(f"Цена: {price_1_rub} ₽ с 'Ozon картой'" + "\n" + f"Цена: {price_2_rub} ₽ без карты" + "\n" + "\n" + "Приятных покупок!)")
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption=info)
+        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption=info, reply_markup=markup)
     else:
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="Цена не найдена 😢")
+        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="Цена не найдена 😢", reply_markup=markup)
         
 def handle_wildberries_place (chat_id):
     info = []
     key = user_state.get(chat_id)
-    #user_state[chat_id] = "wait_message"
     photo = dif_photos[key]["wildberries"]
     url_block = toms_soup[key]["wildberries"]
     product_identify = re.search(r"/catalog/(\d+)", str(url_block)).group(1)
     product_info = get_wb_price(product_identify)   
-    if product_info: #and product_info.get("item_available") == 1:
+    markup = types.InlineKeyboardMarkup()
+    button_menu = types.InlineKeyboardButton(text = 'Вернуться в меню', callback_data='menu')
+    button_another_market = types.InlineKeyboardButton(text = 'Выбрать другой маркетплейс', callback_data='another_market')
+    button_repeat = types.InlineKeyboardButton(text = 'Повторить процесс', callback_data='repeat')
+    markup.add(button_menu, button_another_market, button_repeat)
+    if product_info:
         price_1_rub = product_info["price_discount"]
         price_2_rub = price_1_rub - round((product_info["site_price"] / 100) * 2)
         info.append(
@@ -338,12 +351,9 @@ def handle_wildberries_place (chat_id):
             f"Цена без скидки: {price_1_rub} ₽\n"
         )
         info.append("Приятных покупок!)")
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="\n".join(info))
-    #elif product_info.get("item_available") == 0:
-        #product_info["item_available"] = 1
-        #botJujutsuKaisen.send_message(chat_id, f"Данная манга не продаётся или закончилась на складе 😢")
+        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="\n".join(info), reply_markup=markup)
     else:
-        botJujutsuKaisen.send_message(chat_id, f"Цена не найдена 😢")
+        botJujutsuKaisen.send_message(chat_id, f"Данная манга не продаётся или закончилась на складе 😢", reply_markup=markup)
     
 handles =  {
     "yes": handle_yes,
@@ -354,51 +364,27 @@ handles =  {
     "choice_marketplace": handle_choice_marketplace,
     "yandex_place": handle_yandex_place,
     "ozon_place": handle_ozon_place,
-    "wildberries_place": handle_wildberries_place
+    "wildberries_place": handle_wildberries_place,
+    "menu": handle_yes,
+    "another_market": handle_choice_marketplace,
+    "repeat": handle_price
 }
   
 @botJujutsuKaisen.callback_query_handler(func=lambda call:True)
 def response(function_call):
   if function_call.data in handles:
       handles[function_call.data](function_call.message.chat.id)
-        
   botJujutsuKaisen.answer_callback_query(function_call.id)
-  
-@botJujutsuKaisen.callback_query_handler(func=lambda call:True)
-def response(function_call):
-  chat_id = function_call.chat.id
-  local_time = 1
-  if user_state.get(chat_id) == "wait_message":
-    time.sleep(local_time)
-  #if function_call.data == "wildberries_place" or function_call.data == "ozon_place" or function_call.data == "yandex_place":
-    markup = types.InlineKeyboardMarkup()
-    button_price = types.InlineKeyboardButton(text = 'Узнать цены на другие тома манги', callback_data='price')
-    button_saving = types.InlineKeyboardButton(text = 'Сохранить страницу для продолжения чтения', callback_data='saving')
-    button_reading = types.InlineKeyboardButton(text = 'Посмотреть прогресс прочтения манги', callback_data='reading')
-    markup.add(button_price, button_saving, button_reading)
-    botJujutsuKaisen.send_message(function_call.message.chat.id, f"Рад что вы узнали цену, давайте изучать следующие разделы", reply_markup=markup)
-  botJujutsuKaisen.answer_callback_query(function_call.id)
-  
-@botJujutsuKaisen.message_handler(func=lambda message: message.text)
+ 
+@botJujutsuKaisen.callback_query_handler(func=lambda call:True) 
 def write_number_chapter(message):
   chat_id = message.chat.id
-  save_text = None
   if user_state.get(chat_id) == "wait_writting_number":
-      save_text = message
-      user_text[0] = save_text
+      save_text = message.text
+      user_text[chat_id] = save_text
       botJujutsuKaisen.send_message(chat_id, "Отлично, я записал ваши заметки")
   else:
       botJujutsuKaisen.send_message(chat_id, "Пожалуйста, введите текст.")
-      
-@botJujutsuKaisen.message_handler(func=lambda message: message.text)
-def answer_number_chapter(message):
-  chat_id = message.chat.id
-  answer_text = "1"
-  if user_state.get(chat_id) == "wait_answer_number":
-      answer_text = user_text[0]
-      botJujutsuKaisen.send_message(chat_id, f"{answer_text}")
-  else:
-      botJujutsuKaisen.send_message(chat_id, "Пожалуйста, введите число.")
       
 @botJujutsuKaisen.message_handler(func=lambda message: message.text in tom.keys())
 def select_tom(message):
@@ -416,7 +402,6 @@ def select_tom(message):
       botJujutsuKaisen.send_message(chat_id, "Пожалуйста, введите число.")
   
 def get_wb_price(product_id: int):
-    #item_available = 1
     url = f"https://card.wb.ru/cards/v2/detail?appType=1&curr=rub&dest=-1255987&spp=30&ab_testing=false&nm={product_id}"
     try: 
        response = requests.get(url)
@@ -425,7 +410,6 @@ def get_wb_price(product_id: int):
        size = product["sizes"][0]
        price_info = size["price"]
        if price_info == None:
-            #item_available = 0
             return {"error": "Нет данных о цене"}
        return {
            "price_discount": price_info["product"] // 100,     
