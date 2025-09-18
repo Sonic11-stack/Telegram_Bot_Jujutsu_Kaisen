@@ -10,7 +10,7 @@ JujutsuKaisenContentBot
 
 Далее представлен интерфейс и работа бота: 
 
-<div align="center"> <img width="800" alt="Начало работы" src="https://github.com/user-attachments/assets/9c288826-f772-4ca2-a287-9394aaf0bdd5"/></div>
+<div align="center"> <img width="800" alt="Начало работы" src="https://github.com/user-attachments/assets/c0f888ba-6854-45ad-8884-ede5a81ebc35"/></div>
 
 <h3 align="center">Начало работы</h3>
 
