@@ -12,18 +12,18 @@ JujutsuKaisenContentBot
 
 <div align="center"> <img width="400" alt="Начало работы" src="https://github.com/user-attachments/assets/c0f888ba-6854-45ad-8884-ede5a81ebc35"/></div>
 
-<h3 align="center">Начало работы</h3>
+<h2 align="center">Начало работы</h2>
 
 <br><br>
 
-<div align="center"> <img width="800" alt="Выбор манги" src="https://github.com/user-attachments/assets/fae68001-4b93-4ccf-90dc-ceaba5b4b196"/></div>
+<div align="center"> <img width="400" alt="Выбор манги" src="https://github.com/user-attachments/assets/fae68001-4b93-4ccf-90dc-ceaba5b4b196"/></div>
 
-<h3 align="center">Выбор манги</h3>
+<h2 align="center">Выбор манги</h2>
 
 <br><br>
 
-<div align="center"> <img width="800" alt="Содержание цены" src="https://github.com/user-attachments/assets/7260960d-05da-4f69-9b8f-b8f62577eed0"/></div>
+<div align="center"> <img width="400" alt="Содержание цены" src="https://github.com/user-attachments/assets/7260960d-05da-4f69-9b8f-b8f62577eed0"/></div>
 
-<h3 align="center">Цена из маркетплейса</h3>
+<h2 align="center">Цена из маркетплейса</h2>
 
 <br><br>
