@@ -16,7 +16,7 @@ JujutsuKaisenContentBot
 
 <br><br>
 
-<div align="center"> <img width="800" alt="Выбор манги" src="https://github.com/user-attachments/assets/9f17e6a0-7278-4090-adb9-45919f9c289f"/></div>
+<div align="center"> <img width="800" alt="Выбор манги" src="https://github.com/user-attachments/assets/fae68001-4b93-4ccf-90dc-ceaba5b4b196"/></div>
 
 <h3 align="center">Выбор манги</h3>
 
