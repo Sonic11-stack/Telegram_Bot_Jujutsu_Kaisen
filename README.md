@@ -22,7 +22,7 @@ JujutsuKaisenContentBot
 
 <br><br>
 
-<div align="center"> <img width="800" alt="Содержание цены" src="https://github.com/user-attachments/assets/f6c6dd0b-084f-4443-95ac-8135041aef47"/></div>
+<div align="center"> <img width="800" alt="Содержание цены" src="https://github.com/user-attachments/assets/7260960d-05da-4f69-9b8f-b8f62577eed0"/></div>
 
 <h3 align="center">Цена из маркетплейса</h3>
 
