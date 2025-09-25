@@ -2,131 +2,124 @@ from telebot import types
 from Config import botJujutsuKaisen, user_state, user_text, tom, dif_photos
 from Processing_Search_Price import handle_yandex_place, handle_ozon_place, handle_wildberries_place
 
+class BotService:
+    def __init__(self, bot):
+        self.bot = bot
+
+    def send_message(self, chat_id, text, reply_markup=None):
+        self.bot.send_message(chat_id, text, reply_markup=reply_markup)
+
+    def send_menu(self, chat_id, buttons, text="Выберите действие:"):
+        markup = types.InlineKeyboardMarkup()
+        for row in buttons:
+            markup.add(*row) 
+             
+        self.send_message(chat_id, text, reply_markup=markup)
+            
+bot_service = BotService(botJujutsuKaisen)
+
 @botJujutsuKaisen.message_handler(commands=['start'])
 def startBot(message):
     first_mess = (
         f"<b>{message.from_user.first_name}</b>, "
-        f"привет!\nДанный бот отслеживает пополнение коллекции по манге 'Магическая битва',"
-        f"сохраняет последнюю прочитанную страницу для пользователя и сравнивает"
+        f"привет!\nДанный бот отслеживает пополнение коллекции по манге 'Магическая битва', "
+        f"сохраняет последнюю прочитанную страницу для пользователя и сравнивает "
         f"цены на маркетплейсах для экономной покупки. Желаете протестировать бота?"
     )
     
-    markup = types.InlineKeyboardMarkup()
-    button_yes = types.InlineKeyboardButton(text='Да', callback_data='yes')
-    button_no = types.InlineKeyboardButton(text='Нет', callback_data='no')
+    buttons = [
+        [types.InlineKeyboardButton(text='Да', callback_data='yes')],
+        [types.InlineKeyboardButton(text='Нет', callback_data='no')]
+    ]
     
-    markup.add(button_yes)
-    markup.add(button_no)
+    markup = types.InlineKeyboardMarkup()
+    for row in buttons:
+        markup.add(*row)
     
     botJujutsuKaisen.send_message(
         message.chat.id, 
-        first_mess, parse_mode='html', 
+        first_mess, 
+        parse_mode='html', 
         reply_markup=markup
     )
   
-def handle_yes (chat_id):
-    markup = types.InlineKeyboardMarkup()
-    button_price = types.InlineKeyboardButton(
-        text='Узнать цены на тома',
-        callback_data='price'
-    )
-    button_saving = types.InlineKeyboardButton(
-        text='Сохранить страницу для продолжения чтения',
-        callback_data='saving'
-    )
-    button_reading = types.InlineKeyboardButton(
-        text='Прогресс прочтения манги', 
-        callback_data='reading'
-    )
-    button_reading_online = types.InlineKeyboardButton(
-        text='Прочитать мангу на сайте', 
-        callback_data='reading_online'
-    )
-    
-    markup.add(button_price)
-    markup.add(button_saving)
-    markup.add(button_reading)
-    markup.add(button_reading_online)
-    
-    botJujutsuKaisen.send_message(
+def handle_yes(bot_service, chat_id):
+    buttons = [
+        [types.InlineKeyboardButton(text='Узнать цены на тома', callback_data='price')],
+        [types.InlineKeyboardButton(text='Сохранить страницу', callback_data='saving')],
+        [types.InlineKeyboardButton(text='Прогресс чтения', callback_data='reading')],
+        [types.InlineKeyboardButton(text='Прочитать онлайн', callback_data='reading_online')],
+    ]
+    bot_service.send_menu(
+        chat_id, buttons, "Отлично, давайте изучать меню")
+  
+def handle_no (bot_service, chat_id):
+    bot_service.send_message(
         chat_id, 
-        "Отлично, давайте изучать меню", 
-        reply_markup=markup
+        "Ничего страшного, можете вернуться когда захотите"
     )
   
-def handle_no (chat_id): botJujutsuKaisen.send_message(
-    chat_id, 
-    "Ничего страшного, можете вернуться когда захотите"
-    ) 
-  
-def handle_saving (chat_id): 
+def handle_saving (bot_service, chat_id): 
     user_state[chat_id] = "wait_writting_number"
-    botJujutsuKaisen.send_message(
+    bot_service.send_message(
         chat_id, 
         "Хорошо, теперь запишите номер тома и главы, а также страницу"
     ) 
   
-def handle_reading (chat_id): 
+def handle_reading (bot_service, chat_id): 
     user_state[chat_id] = "wait_answer_number"
     
-    markup = types.InlineKeyboardMarkup()
-    button_menu = types.InlineKeyboardButton(text='Вернуться в меню', callback_data='menu')
-    
-    markup.add(button_menu)
+    buttons = [
+        [types.InlineKeyboardButton(text='Вернуться в меню', callback_data='menu')]
+    ]
     
     answer_text = user_text.get(chat_id, "Пока нет сохранённых заметок")
-    botJujutsuKaisen.send_message(
+    bot_service.send_menu(
         chat_id, 
-        f"{answer_text}", 
-        reply_markup=markup
+        buttons,
+        f"{answer_text}"
     )
     
-def handle_reading_online (chat_id): 
-    markup = types.InlineKeyboardMarkup()
-    button_url = types.InlineKeyboardButton(
+def handle_reading_online (bot_service, chat_id): 
+    buttons = [
+        [types.InlineKeyboardButton(
         text='Перейти по ссылке', 
-        url="https://com-x.life/9514-magicheskaya-bitva-read.html"
-    )
-    button_menu = types.InlineKeyboardButton(
-        text='Вернуться в меню', 
-        callback_data='menu'
-    )
+        url="https://com-x.life/9514-magicheskaya-bitva-read.html")
+        ],
+        [types.InlineKeyboardButton(text='Вернуться в меню', callback_data='menu')]
+    ]
     
-    markup.add(button_url)
-    markup.add(button_menu)
-    
-    botJujutsuKaisen.send_message(
+    bot_service.send_menu(
         chat_id, 
+        buttons,
         "Здесь вы можете ознакомиться с мангой.\n\n" 
-        "Приятного чтения!)", 
-        reply_markup=markup
+        "Приятного чтения!)"
     )
   
-def handle_price (chat_id): 
+def handle_price (bot_service, chat_id): 
     user_state[chat_id] = "wait_writting"
-    botJujutsuKaisen.send_message(chat_id, "Теперь напишите номер тома манги") 
+    bot_service.send_message(chat_id, "Теперь напишите номер тома манги") 
 
-def handle_choice_marketplace (chat_id): 
-    markup = types.InlineKeyboardMarkup()
-    button_yandex = types.InlineKeyboardButton(
+def handle_choice_marketplace (bot_service, chat_id): 
+    buttons = [
+        [types.InlineKeyboardButton(
         text='Yandex Market', 
-        callback_data='yandex_place'
-    )
-    button_ozon = types.InlineKeyboardButton(
+        callback_data='yandex_place')
+        ],
+        [types.InlineKeyboardButton(
         text='Ozon', 
-        callback_data='ozon_place'
-    )
-    button_wildberries = types.InlineKeyboardButton(
+        callback_data='ozon_place')
+        ],
+        [types.InlineKeyboardButton(
         text='Wildberries',
-        callback_data='wildberries_place'
-    )
+        callback_data='wildberries_place')
+        ]
+    ]
     
-    markup.add(button_yandex, button_ozon, button_wildberries)
-    
-    botJujutsuKaisen.send_message(
+    bot_service.send_menu(
         chat_id, 
-        "Теперь выберите маркетплейс", 
-        reply_markup=markup
+        buttons,
+        "Теперь выберите маркетплейс"
     )
     
 @botJujutsuKaisen.message_handler(func=lambda message: message.text in tom.keys())
@@ -160,19 +153,19 @@ def select_tom(message):
       )
     
 handles =  {
-    "yes": handle_yes,
-    "no": handle_no,
-    "saving": handle_saving,
-    "reading": handle_reading,
-    "price": handle_price,
-    "choice_marketplace": handle_choice_marketplace,
+    "yes": lambda chat_id: handle_yes(bot_service, chat_id),
+    "no": lambda chat_id: handle_no(bot_service, chat_id),
+    "saving": lambda chat_id: handle_saving(bot_service, chat_id),
+    "reading": lambda chat_id: handle_reading(bot_service, chat_id),
+    "price": lambda chat_id: handle_price(bot_service, chat_id),
+    "choice_marketplace": lambda chat_id: handle_choice_marketplace(bot_service, chat_id),
     "yandex_place": handle_yandex_place,
     "ozon_place": handle_ozon_place,
     "wildberries_place": handle_wildberries_place,
-    "menu": handle_yes,
-    "another_market": handle_choice_marketplace,
-    "repeat": handle_price,
-    "reading_online": handle_reading_online
+    "menu": lambda chat_id: handle_yes(bot_service, chat_id),
+    "another_market": lambda chat_id: handle_choice_marketplace (bot_service, chat_id),
+    "repeat": lambda chat_id: handle_price(bot_service, chat_id),
+    "reading_online": lambda chat_id: handle_reading_online(bot_service, chat_id)
 }
 
 @botJujutsuKaisen.message_handler(
