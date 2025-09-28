@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from DrissionPage import ChromiumPage
 from Config import botJujutsuKaisen, user_state, dif_photos, toms_soup, requests
 
 class Marketplace:
@@ -43,20 +44,20 @@ class YandexMarketplace(Marketplace):
         
 class OzonMarketplace(Marketplace):
     def get_info(self):
-        product_url = "/product/magicheskaya-bitva-kn-1-dvulikiy-sukuna-proklyatyy-plod-akutami-gege-596960583/"
-        product_info = get_ozon_price(product_url)
+        #product_url = "/product/magicheskaya-bitva-kn-1-dvulikiy-sukuna-proklyatyy-plod-akutami-gege-596960583/"
+        product_info = get_ozon_price()
 
-        if product_info and product_info["title"]:
-            title = product_info["title"]
+        if product_info and product_info["price"]:
             price = product_info["price"]
+            price_discount = product_info["price_discount"]
             
             return (
-                f"{title}\n"
-                f"Цена на Ozon: {price} ₽\n\n"
+                f"Цена с Ozon картой: {price}\n"
+                f"Цена без скидки: {price_discount}\n\n"
                 "Приятных покупок!)"
             )
         else:
-            return "Данная манга не продаётся или закончилась на складе 😢"
+            return f"Данная манга не продаётся или закончилась на складе 😢"
         
 class WildberriesMarketplace(Marketplace):
     def get_info(self):
@@ -123,68 +124,6 @@ def handle_wildberries_place(chat_id):
     wb = WildberriesMarketplace(photo, soup)
     send_marketplace_info(chat_id, wb, botJujutsuKaisen)
         
-"""def handle_ozon_place(chat_id):
-    info = []
-    key = user_state.get(chat_id)  
-    photo = dif_photos[key]["ozon"]
-    soup = toms_soup[key]["ozon"]
-    price_tag = soup.find('span', class_='tsHeadline600Large')
-    
-    info = []
-    key = user_state.get(chat_id)
-    
-    photo = dif_photos[key]["ozon"]
-    url_block = toms_soup[key]["ozon"]
-    
-    #product_identify = re.search(r"/catalog/(\d+)", str(url_block)).group(1)
-    product_url = "/product/magicheskaya-bitva-kn-1-dvulikiy-sukuna-proklyatyy-plod-akutami-gege-596960583/"
-    product_info = get_ozon_price(product_url)   
-    
-    markup = types.InlineKeyboardMarkup()
-    button_menu = types.InlineKeyboardButton(text='Вернуться в меню', callback_data='menu')
-    button_another_market = types.InlineKeyboardButton(
-        text='Выбрать другой маркетплейс', 
-        callback_data='another_market'
-    )
-    button_repeat = types.InlineKeyboardButton(text='Повторить процесс', callback_data='repeat')
-    
-    markup.add(button_menu)
-    markup.add(button_another_market)
-    markup.add(button_repeat)
-    
-    if product_info: #and "product_info" in product_info:
-        #price_1_rub = product_info["price_discount"]
-        #price_2_rub = price_1_rub - round((product_info["site_price"] / 100) * 2)
-        name = product_info["title"]
-        
-        info.append(
-            f"Цена со скидкой с Ozon картой: {name} ₽\n" 
-            f"Цена без скидки: {name} ₽\n\n" 
-            "Приятных покупок!)"
-        )
-        
-        botJujutsuKaisen.send_photo(
-            chat_id, 
-            photo=photo, 
-            caption="\n".join(info), 
-            reply_markup=markup
-        )
-    else:
-        botJujutsuKaisen.send_photo(
-            chat_id, 
-            photo=photo, 
-            caption="Данная манга не продаётся или закончилась на складе 😢", 
-            reply_markup=markup
-        )
-        
-    if price_tag:
-        price_1_rub = price_tag.get_text(strip=True)
-        price_2_rub = 100   
-        info.append(f"Цена: {price_1_rub} ₽ с 'Ozon картой'" + "\n" + f"Цена: {price_2_rub} ₽ без карты" + "\n" + "\n" + "Приятных покупок!)")
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption=info, reply_markup=markup)
-    else:
-        botJujutsuKaisen.send_photo(chat_id, photo=photo, caption="Цена не найдена 😢", reply_markup=markup)"""
-        
 def get_wb_price(product_id: int):
     url = (f"https://card.wb.ru/cards/v2/detail?"
            f"appType=1&curr=rub&dest=-1255987&"
@@ -210,54 +149,33 @@ def get_wb_price(product_id: int):
     except Exception as e:
         return {"error": f"Неизвестная ошибка: {e}"}
     
-def get_ozon_price(product_url: str):
-    full_url = f"https://www.ozon.ru{product_url}"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0 Safari/537.36",
-        "Accept-Language": "ru-RU,ru;q=0.9",
-        "Referer": "https://www.ozon.ru/",
-        "Origin": "https://www.ozon.ru"
-    }
-
-    session = requests.Session()
+def get_ozon_price():
+    url = "https://www.ozon.ru/product/magicheskaya-bitva-kn-1-dvulikiy-sukuna-proklyatyy-plod-akutami-gege-596960583/?at=r2t4EXVnPHrw9QE7CEW7nlzU2VqPGJu46GZ4Rfx8YQDE"
+    dp = ChromiumPage()
     
-    cookies = {
-        # значение
-    }
+    try:
+        dp.get(url, timeout=5)                          
+        field = dp.ele('xpath://input[@class="d5_3_7-a d5_3_7-a2 d5_3_7-a4"]', timeout=5)
+        field.click()
+        
+        field.input("01.01.2000")
+        field = dp.ele('xpath://div[@class="b6"]', timeout=5)
+        field.click()
+        
+        field = dp.ele('xpath://div[@class="b25_4_4-a"]',timeout=5)
+        field.click()
+        
+        try:
+            price = dp.ele('.tsHeadline600Large').text.strip()
+            price_discount = dp.ele('xpath://span[@class="pdp_bf2 tsHeadline500Medium"]').text.strip()
+            
+        except Exception:
+            price = "Цена не найдена"
 
-    resp = session.get(full_url, headers=headers, cookies=cookies)
-    print(resp.status_code)
-    print(resp.text[:500])  
-
-    if resp.status_code != 200:
-        return {"title": None, "price": None}
-
-    soup = BeautifulSoup(resp.text, "html.parser")
-    
-    title_tag = soup.find("h1")
-    title = title_tag.get_text(strip=True) if title_tag else "Не найдено"
-    price_tag = soup.find("span", class_="tsBodyL")
-    price = price_tag.get_text(strip=True) if price_tag else "Не указана"
-
-    return {
-        "title": title, 
-        "price": price
-    }
-    """try: 
-       response = requests.get(url)
-       data = response.json()
-       product = data["seo"]["link"][0]
-       product_1 = product["rel"]
-       return { 
-               "product_info": product_1
+        return {
+            "price": price,
+            "price_discount": price_discount
         }
-       size = product["sizes"][0]
-       price_info = size["price"]
-       if price_info == None:
-            return {"error": "Нет данных о цене"}
-       return {
-           "price_discount": price_info["product"] // 100,     
-           "site_price": price_info["product"] // 100
-       }
-    except Exception as e:
-        return {"error": f"Неизвестная ошибка: {e}"} """
+
+    finally:
+        dp.quit()   
