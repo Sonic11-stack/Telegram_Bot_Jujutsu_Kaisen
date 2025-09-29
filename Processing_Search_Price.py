@@ -1,12 +1,7 @@
 import re
 from telebot import types
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from DrissionPage import ChromiumPage
-from Config import botJujutsuKaisen, user_state, dif_photos, toms_soup, requests
+from DrissionPage import ChromiumPage, ChromiumOptions
+from Config import botJujutsuKaisen, user_state, dif_photos, toms_soup, tom, requests
 
 class Marketplace:
     def __init__(self, photo, soup):
@@ -43,9 +38,12 @@ class YandexMarketplace(Marketplace):
             return "Данная манга не продаётся или закончилась на складе 😢"
         
 class OzonMarketplace(Marketplace):
+    def __init__(self, photo, soup, url):
+        super().__init__(photo, soup)
+        self.url = url  
+        
     def get_info(self):
-        #product_url = "/product/magicheskaya-bitva-kn-1-dvulikiy-sukuna-proklyatyy-plod-akutami-gege-596960583/"
-        product_info = get_ozon_price()
+        product_info = get_ozon_price(self.url)
 
         if product_info and product_info["price"]:
             price = product_info["price"]
@@ -112,8 +110,9 @@ def handle_ozon_place(chat_id):
     key = user_state.get(chat_id)
     photo = dif_photos[key]["ozon"]
     soup = toms_soup[key]["ozon"]
-
-    ozon = OzonMarketplace(photo, soup)
+    url = tom[key]["urls"]["ozon"]
+        
+    ozon = OzonMarketplace(photo, soup, url)
     send_marketplace_info(chat_id, ozon, botJujutsuKaisen)
 
 def handle_wildberries_place(chat_id):
@@ -149,33 +148,42 @@ def get_wb_price(product_id: int):
     except Exception as e:
         return {"error": f"Неизвестная ошибка: {e}"}
     
-def get_ozon_price():
-    url = "https://www.ozon.ru/product/magicheskaya-bitva-kn-1-dvulikiy-sukuna-proklyatyy-plod-akutami-gege-596960583/?at=r2t4EXVnPHrw9QE7CEW7nlzU2VqPGJu46GZ4Rfx8YQDE"
-    dp = ChromiumPage()
+def get_ozon_price(product_url):
+    co = ChromiumOptions()
+    co.set_argument('--headless=new')
+    co.set_argument('--disable-blink-features=AutomationControlled')
+    co.set_argument('--blink-settings=imagesEnabled=false')
+    co.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
     
     try:
-        dp.get(url, timeout=5)                          
-        field = dp.ele('xpath://input[@class="d5_3_7-a d5_3_7-a2 d5_3_7-a4"]', timeout=5)
-        field.click()
-        
-        field.input("01.01.2000")
-        field = dp.ele('xpath://div[@class="b6"]', timeout=5)
-        field.click()
-        
-        field = dp.ele('xpath://div[@class="b25_4_4-a"]',timeout=5)
-        field.click()
+        dp = ChromiumPage(co)
+    except TypeError:
+        dp = ChromiumPage(options=co)
+    
+    try:
+        dp.get(product_url, timeout=5)
+        try:
+            field = dp.ele('xpath://input[@class="d5_3_7-a d5_3_7-a2 d5_3_7-a4"]', timeout=5)
+            field.click()
+            field.input("01.01.2000")
+            field = dp.ele('xpath://div[@class="b6"]', timeout=5)
+            field.click()
+            field = dp.ele('xpath://div[@class="b25_4_4-a"]', timeout=5)
+            field.click()
+        except Exception:
+            pass  
         
         try:
             price = dp.ele('.tsHeadline600Large').text.strip()
             price_discount = dp.ele('xpath://span[@class="pdp_bf2 tsHeadline500Medium"]').text.strip()
-            
         except Exception:
             price = "Цена не найдена"
-
+            price_discount = None
+        
         return {
             "price": price,
             "price_discount": price_discount
         }
-
+    
     finally:
-        dp.quit()   
+        dp.quit()
