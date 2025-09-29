@@ -58,19 +58,20 @@ class OzonMarketplace(Marketplace):
             return f"Данная манга не продаётся или закончилась на складе 😢"
         
 class WildberriesMarketplace(Marketplace):
+    def __init__(self, photo, soup, url):
+        super().__init__(photo, soup)
+        self.url = url
+    
     def get_info(self):
-        product_identify = re.search(r"/catalog/(\d+)", str(self.soup)).group(1)
-        product_info = get_wb_price(product_identify)
+        product_info = get_wb_price(self.url)
 
-        if product_info and "price_discount" in product_info:
-            price_1_rub = product_info["price_discount"]
-            price_2_rub = price_1_rub - round(
-                (product_info["site_price"] / 100) * 2
-            )
+        if product_info and product_info["price"]:
+            price = product_info["price"]
+            price_discount = product_info["price_discount"]
             
             return (
-                f"Цена со скидкой с WB кошельком: {price_2_rub} ₽\n"
-                f"Цена без скидки: {price_1_rub} ₽\n\n"
+                f"Цена со скидкой с WB кошельком: {price_discount}\n"
+                f"Цена без скидки: {price}\n\n"
                 "Приятных покупок!)"
             )
         else:
@@ -119,34 +120,39 @@ def handle_wildberries_place(chat_id):
     key = user_state.get(chat_id)
     photo = dif_photos[key]["wildberries"]
     soup = toms_soup[key]["wildberries"]
+    url = tom[key]["urls"]["wildberries"]
 
-    wb = WildberriesMarketplace(photo, soup)
+    wb = WildberriesMarketplace(photo, soup, url)
     send_marketplace_info(chat_id, wb, botJujutsuKaisen)
         
-def get_wb_price(product_id: int):
-    url = (f"https://card.wb.ru/cards/v2/detail?"
-           f"appType=1&curr=rub&dest=-1255987&"
-           f"spp=30&ab_testing=false&nm={product_id}"
-    )
+def get_wb_price(product_url):
+    co = ChromiumOptions()
+    co.set_argument('--headless=new')
+    co.set_argument('--disable-blink-features=AutomationControlled')
+    co.set_argument('--blink-settings=imagesEnabled=false')
+    co.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
     
-    try: 
-       response = requests.get(url)
-       data = response.json()
-       
-       product = data["data"]["products"][0]
-       size = product["sizes"][0]
-       price_info = size["price"]
-       
-       if price_info is None:
-            return {"error": "Нет данных о цене"}
+    try:
+        dp = ChromiumPage(co)
+    except TypeError:
+        dp = ChromiumPage(options=co)
+    
+    try:
+        dp.get(product_url, timeout=5)
+        try:
+            price = dp.ele('xpath://ins[@class="priceBlockFinalPrice--aBPT6 wallet--hMQMA"]').text.strip()
+            price_discount = dp.ele('xpath://span[@class="priceBlockWalletPrice--S1HE9"]').text.strip()
+        except Exception:
+            price = "Цена не найдена"
+            price_discount = None
         
-       return {
-           "price_discount": price_info["product"] // 100,     
-           "site_price": price_info["product"] // 100
-       }
-       
-    except Exception as e:
-        return {"error": f"Неизвестная ошибка: {e}"}
+        return {
+            "price": price,
+            "price_discount": price_discount
+        }
+    
+    finally:
+        dp.quit()
     
 def get_ozon_price(product_url):
     co = ChromiumOptions()
