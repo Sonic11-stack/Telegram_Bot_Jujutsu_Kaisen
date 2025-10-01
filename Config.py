@@ -68,7 +68,7 @@ tom = {
     },
     "6": { "info": "Отлично, вы выбрали 6 том манги 'Магическая битва. Кн. 6. Инцидент в Сибуе : Открыть врата. Спиритизм. | Акутами Гэгэ'!",
           
-           "urls": { "yandex": "https://clck.ru/3PMJrL",
+           "urls": { "yandex": "https://clck.ru/3PVuyh",
                      "ozon": ("https://www.ozon.ru/product"
                               "/magicheskaya-bitva-kn-6-intsident-v-sibue-otkryt-vrata-spiritizm-akutami-gege-953899853"
                               "/?at=WPtNRArvETKjJ0knfoZm30Wi43YvGBFZEqXQvFk4jnwz"

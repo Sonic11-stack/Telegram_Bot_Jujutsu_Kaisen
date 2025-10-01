@@ -12,30 +12,24 @@ class Marketplace:
         raise NotImplementedError("Метод get_info должен быть реализован")
     
 class YandexMarketplace(Marketplace):
+    def __init__(self, photo, soup, url):
+        super().__init__(photo, soup)
+        self.url = url  
+        
     def get_info(self):
-        price_tag = self.soup.find('span', class_='ds-text_color_price-term')
-        price_tag_1 = self.soup.find(
-            'span', 
-            class_=('ds-text ds-text_weight_reg ds-text_color_text-secondary '
-            'ds-text_typography_text ds-text_text_tight ds-text_text_reg')
-        )
-        attention = self.soup.find(
-            'h2', 
-            class_=('ds-text ds-text_weight_bold ds-text_typography_headline-5 '
-            'ds-text_headline-5_tight ds-text_headline-5_bold')
-        )
+        product_info = get_yandex_price(self.url)
 
-        if (price_tag and price_tag_1) and (attention is None):
-            price_1_rub = price_tag.get_text(strip=True)
-            price_2_rub = price_tag_1.get_text(strip=True)
+        if product_info and product_info["price"]:
+            price = product_info["price"]
+            price_discount = product_info["price_discount"]
             
             return (
-                f"Цена: {price_1_rub} ₽ с картой 'Яндекс Пэй'\n"
-                f"Цена: {price_2_rub} ₽ без карты\n\n"
+                f"Цена с Яндекс картой: {price} ₽\n"
+                f"Цена без скидки: {price_discount} ₽\n\n"
                 "Приятных покупок!)"
             )
         else:
-            return "Данная манга не продаётся или закончилась на складе 😢"
+            return f"Данная манга не продаётся или закончилась на складе 😢"
         
 class OzonMarketplace(Marketplace):
     def __init__(self, photo, soup, url):
@@ -103,8 +97,9 @@ def handle_yandex_place(chat_id):
     key = user_state.get(chat_id)
     photo = dif_photos[key]["yandex"]
     soup = toms_soup[key]["yandex"]
+    url = tom[key]["urls"]["yandex"]
 
-    yandex = YandexMarketplace(photo, soup)
+    yandex = YandexMarketplace(photo, soup, url)
     send_marketplace_info(chat_id, yandex, botJujutsuKaisen)
 
 def handle_ozon_place(chat_id):
@@ -182,6 +177,37 @@ def get_ozon_price(product_url):
         try:
             price = dp.ele('.tsHeadline600Large').text.strip()
             price_discount = dp.ele('xpath://span[@class="pdp_bf2 tsHeadline500Medium"]').text.strip()
+        except Exception:
+            price = "Цена не найдена"
+            price_discount = None
+        
+        return {
+            "price": price,
+            "price_discount": price_discount
+        }
+    
+    finally:
+        dp.quit()
+        
+def get_yandex_price(product_url):
+    co = ChromiumOptions()
+    co.set_argument('--headless=new')
+    co.set_argument('--disable-blink-features=AutomationControlled')
+    co.set_argument('--blink-settings=imagesEnabled=false')
+    co.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+    
+    try:
+        dp = ChromiumPage(co)
+    except TypeError:
+        dp = ChromiumPage(options=co)
+    
+    try:
+        dp.get(product_url, timeout=5)
+        
+        try:
+            click = dp.ele('xpath://div[@class="b25_4_4-a"]', timeout=5)
+            price = dp.ele('xpath://span[@class="ds-text ds-text_weight_bold ds-text_color_price-term ds-text_typography_headline-3 ds-text_headline-3_tight ds-text_headline-3_bold"]').text.strip()
+            price_discount = dp.ele('xpath://span[@class="ds-text ds-text_weight_reg ds-text_color_text-secondary ds-text_typography_text ds-text_text_tight ds-text_text_reg"]').text.strip()
         except Exception:
             price = "Цена не найдена"
             price_discount = None
