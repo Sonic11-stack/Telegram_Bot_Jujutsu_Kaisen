@@ -139,7 +139,7 @@ def get_wb_price(product_url):
             price_discount = dp.ele('xpath://span[@class="priceBlockWalletPrice--S1HE9"]').text.strip()
         except Exception:
             price = "Цена не найдена"
-            price_discount = None
+            price_discount = "Цена не найдена"
         
         return {
             "price": price,
@@ -175,11 +175,11 @@ def get_ozon_price(product_url):
             pass  
         
         try:
-            price = dp.ele('.tsHeadline600Large').text.strip()
-            price_discount = dp.ele('xpath://span[@class="pdp_bf2 tsHeadline500Medium"]').text.strip()
+            price = dp.ele('.tsHeadline600Large', timeout=5).text.strip()
+            price_discount = dp.ele('xpath://span[@class="pdp_bf7 tsHeadline500Medium"]', timeout=5).text.strip()
         except Exception:
             price = "Цена не найдена"
-            price_discount = None
+            price_discount = "Цена не найдена"
         
         return {
             "price": price,
@@ -206,11 +206,16 @@ def get_yandex_price(product_url):
         
         try:
             click = dp.ele('xpath://div[@class="b25_4_4-a"]', timeout=5)
-            price = dp.ele('xpath://span[@class="ds-text ds-text_weight_bold ds-text_color_price-term ds-text_typography_headline-3 ds-text_headline-3_tight ds-text_headline-3_bold"]').text.strip()
-            price_discount = dp.ele('xpath://span[@class="ds-text ds-text_weight_reg ds-text_color_text-secondary ds-text_typography_text ds-text_text_tight ds-text_text_reg"]').text.strip()
+            price = dp.ele('xpath://span[@class="ds-text ds-text_weight_bold ds-text_color_price-term ds-text_typography_headline-3 ds-text_headline-3_tight ds-text_headline-3_bold"]', timeout=5).text.strip()
+            #price_discount = dp.ele('xpath://span[@class="ds-text ds-text_weight_reg ds-text_color_text-secondary ds-text_typography_text ds-text_text_tight ds-text_text_reg"]').text.strip()
+            clean_price = re.sub(r'[^\d.,]', '', price)  
+            clean_price = clean_price.replace(',', '.')
+            price_discount = int(clean_price)
+            price_discount = round(price_discount * 1.01)
+            
         except Exception:
             price = "Цена не найдена"
-            price_discount = None
+            price_discount = "Цена не найдена"
         
         return {
             "price": price,
