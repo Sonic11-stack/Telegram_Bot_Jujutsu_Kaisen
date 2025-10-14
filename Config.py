@@ -177,6 +177,18 @@ tom = {
                                       "/463572869/detail.aspx?targetUrl=EX"
                                      )
                     }
+    },
+    "15": { "info": "Отлично, вы выбрали 15 том манги 'Магическая битва. Кн. 15. Жизнь и смерть. Что ждёт нас в будущем. | Акутами Гэгэ'!",
+           
+            "urls": { "yandex": "https://clck.ru/3Pjc7Y",
+                      "ozon": ("https://www.ozon.ru/product"
+                               "/magicheskaya-bitva-kn-15-otkrytka-teso-komplekt-akutami-gege-2829430003"
+                               "/?at=ywtAZV4YzcgL6kk5c03G3vQt3JPqqDhn490PMiGM87WJ&sh=Da3UmERQbg"
+                              ),
+                      "wildberries": ("https://www.wildberries.ru/catalog"
+                                      "/547937862/detail.aspx?targetUrl=MI"
+                                     )
+                    }
     }
 }
 
@@ -288,6 +300,14 @@ photos = {
     "14": {
         "photos": {
             "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fourteenth_Tom.png",
+            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
+            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
+            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.jpeg"
+        }
+    },
+    "15": {
+        "photos": {
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fifteenth_Tom.png",
             "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
             "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
             "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.jpeg"
