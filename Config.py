@@ -1,9 +1,13 @@
 import telebot
-botJujutsuKaisen = telebot.TeleBot('')
+import os
+from dotenv import load_dotenv
 import requests
 from lxml import html
 from io import BytesIO
 from bs4 import BeautifulSoup
+
+load_dotenv()
+botJujutsuKaisen = telebot.TeleBot(os.getenv("botKey"))
 
 tom = { 
     "1": { "info": "Отлично, вы выбрали 1 том манги 'Магическая битва. Кн. 1. Двуликий Сукуна. Проклятый плод. | Акутами Гэгэ'!",

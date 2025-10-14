@@ -64,7 +64,7 @@ class WildberriesMarketplace(Marketplace):
             price_discount = product_info["price_discount"]
             
             return (
-                f"Цена со скидкой с WB кошельком: {price_discount}\n"
+                f"Цена с WB кошельком: {price_discount}\n"
                 f"Цена без скидки: {price}\n\n"
                 "Приятных покупок!)"
             )
@@ -176,7 +176,7 @@ def get_ozon_price(product_url):
         
         try:
             price = dp.ele('.tsHeadline600Large', timeout=5).text.strip()
-            price_discount = dp.ele('xpath://span[@class="pdp_bf7 tsHeadline500Medium"]', timeout=5).text.strip()
+            price_discount = dp.ele('xpath://span[@class="pdp_b7f tsHeadline500Medium"]', timeout=5).text.strip()
         except Exception:
             price = "Цена не найдена"
             price_discount = "Цена не найдена"
