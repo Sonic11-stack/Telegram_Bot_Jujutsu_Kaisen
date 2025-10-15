@@ -10,6 +10,18 @@ load_dotenv()
 botJujutsuKaisen = telebot.TeleBot(os.getenv("botKey"))
 
 tom = { 
+    "0": { "info": "Отлично, вы выбрали 0 том манги 'Магическая битва. Кн. 0. Ослепительная тьма. | Акутами Гэгэ'!",
+          
+           "urls": { "yandex": "https://clck.ru/3PkvB8",
+                     "ozon": ("https://www.ozon.ru/product"
+                              "/magicheskaya-bitva-0-tokiyskiy-magicheskiy-kolledzh-oslepitelnaya-tma-akutami-gege-612566156"
+                              "/?at=qQtJZjkk9czmXrMxfX4owK7up2y2yVcZPvZoBTv901Bx"
+                             ),
+                     "wildberries": ("https://www.wildberries.ru/catalog"
+                                     "/87454853/detail.aspx"
+                                    )
+                   } 
+    },
     "1": { "info": "Отлично, вы выбрали 1 том манги 'Магическая битва. Кн. 1. Двуликий Сукуна. Проклятый плод. | Акутами Гэгэ'!",
           
            "urls": { "yandex": "https://clck.ru/3PMJiy",
@@ -193,6 +205,14 @@ tom = {
 }
 
 photos = {
+    "0": {
+        "photos": {
+            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Null_Tom.png",
+            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
+            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
+            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.jpeg"
+        }
+    },
     "1": {
         "photos": {
             "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/First_Tom.png",
