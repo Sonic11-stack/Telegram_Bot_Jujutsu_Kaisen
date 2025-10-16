@@ -164,12 +164,12 @@ def get_ozon_price(product_url):
     try:
         dp.get(product_url, timeout=5)
         try:
-            field = dp.ele('xpath://input[@class="d5_3_7-a d5_3_7-a2 d5_3_7-a4"]', timeout=5)
+            field = dp.ele('xpath://input[@class="d5_3_10-a d5_3_10-a2 d5_3_10-a4"]', timeout=5)
             field.click()
             field.input("01.01.2000")
             field = dp.ele('xpath://div[@class="b6"]', timeout=5)
             field.click()
-            field = dp.ele('xpath://div[@class="b25_4_4-a"]', timeout=5)
+            field = dp.ele('xpath://div[@class="b25_5_1-a"]', timeout=5)
             field.click()
         except Exception:
             pass  
