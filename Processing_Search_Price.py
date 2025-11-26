@@ -121,7 +121,8 @@ def handle_wildberries_place(chat_id):
     send_marketplace_info(chat_id, wb, botJujutsuKaisen)
         
 def get_wb_price(product_url):
-    co = ChromiumOptions()
+    dp = ChromiumPage()
+    """co = ChromiumOptions()
     co.set_argument('--headless=new')
     co.set_argument('--disable-blink-features=AutomationControlled')
     co.set_argument('--blink-settings=imagesEnabled=false')
@@ -130,13 +131,15 @@ def get_wb_price(product_url):
     try:
         dp = ChromiumPage(co)
     except TypeError:
-        dp = ChromiumPage(options=co)
+        dp = ChromiumPage(options=co)"""
     
     try:
         dp.get(product_url, timeout=5)
         try:
-            price = dp.ele('xpath://ins[@class="priceBlockFinalPrice--aBPT6 wallet--hMQMA"]').text.strip()
-            price_discount = dp.ele('xpath://span[@class="priceBlockWalletPrice--S1HE9"]').text.strip()
+            #dp.wait(50)
+            price = dp.ele('xpath://span[@class="mo-typography mo-typography_variant_description mo-typography_variable-weight_description mo-typography_color_primary priceBlockFinalPrice--aBPT6"]', timeout=5).text.strip()
+            #price_discount = dp.ele('xpath://span[@class="mo-typography mo-typography_variant_description mo-typography_variable-weight_description mo-typography_color_accent priceBlockWalletPrice--S1HE9"]', timeout=5).text.strip()
+            price_discount = "1"
         except Exception:
             price = "Цена не найдена"
             price_discount = "Цена не найдена"
@@ -150,6 +153,7 @@ def get_wb_price(product_url):
         dp.quit()
     
 def get_ozon_price(product_url):
+    #dp = ChromiumPage(options=co)
     co = ChromiumOptions()
     co.set_argument('--headless=new')
     co.set_argument('--disable-blink-features=AutomationControlled')
@@ -163,6 +167,7 @@ def get_ozon_price(product_url):
     
     try:
         dp.get(product_url, timeout=5)
+        
         try:
             field = dp.ele('xpath://input[@class="d5_3_10-a d5_3_10-a2 d5_3_10-a4"]', timeout=5)
             field.click()
@@ -176,7 +181,7 @@ def get_ozon_price(product_url):
         
         try:
             price = dp.ele('.tsHeadline600Large', timeout=5).text.strip()
-            price_discount = dp.ele('xpath://span[@class="pdp_b7f tsHeadline500Medium"]', timeout=5).text.strip()
+            price_discount = dp.ele('xpath://span[@class="pdp_f7b tsHeadline500Medium"]', timeout=5).text.strip()
         except Exception:
             price = "Цена не найдена"
             price_discount = "Цена не найдена"
@@ -190,6 +195,7 @@ def get_ozon_price(product_url):
         dp.quit()
         
 def get_yandex_price(product_url):
+    #dp = ChromiumPage()
     co = ChromiumOptions()
     co.set_argument('--headless=new')
     co.set_argument('--disable-blink-features=AutomationControlled')
