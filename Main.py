@@ -7,4 +7,5 @@ def response(function_call):
       handles[function_call.data](function_call.message.chat.id)
   botJujutsuKaisen.answer_callback_query(function_call.id)
   
-botJujutsuKaisen.infinity_polling()
+if __name__ == "__main__":
+    botJujutsuKaisen.infinity_polling()

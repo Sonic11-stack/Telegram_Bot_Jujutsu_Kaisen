@@ -1,21 +1,20 @@
+import os
 import re
+from io import BytesIO
+from shutil import which
 from telebot import types
 from DrissionPage import ChromiumPage, ChromiumOptions
-from Config import botJujutsuKaisen, user_state, dif_photos, toms_soup, tom, requests
+from Config import botJujutsuKaisen, user_state, dif_photos, tom
 
 class Marketplace:
-    def __init__(self, photo, soup):
+    def __init__(self, photo, url):
         self.photo = photo
-        self.soup = soup
+        self.url = url
 
     def get_info(self):
         raise NotImplementedError("Метод get_info должен быть реализован")
     
 class YandexMarketplace(Marketplace):
-    def __init__(self, photo, soup, url):
-        super().__init__(photo, soup)
-        self.url = url  
-        
     def get_info(self):
         product_info = get_yandex_price(self.url)
 
@@ -24,18 +23,14 @@ class YandexMarketplace(Marketplace):
             price_discount = product_info["price_discount"]
             
             return (
-                f"Цена с Яндекс картой: {price} ₽\n"
-                f"Цена без скидки: {price_discount} ₽\n\n"
+                f"Цена с Яндекс Картой: {price}\n"
+                f"Ориентировочная цена без скидки: {price_discount} ₽\n\n"
                 "Приятных покупок!)"
             )
         else:
-            return f"Данная манга не продаётся или закончилась на складе 😢"
+            return "Не удалось получить цену."
         
 class OzonMarketplace(Marketplace):
-    def __init__(self, photo, soup, url):
-        super().__init__(photo, soup)
-        self.url = url  
-        
     def get_info(self):
         product_info = get_ozon_price(self.url)
 
@@ -49,28 +44,16 @@ class OzonMarketplace(Marketplace):
                 "Приятных покупок!)"
             )
         else:
-            return f"Данная манга не продаётся или закончилась на складе 😢"
+            return "Не удалось получить цену."
         
 class WildberriesMarketplace(Marketplace):
-    def __init__(self, photo, soup, url):
-        super().__init__(photo, soup)
-        self.url = url
-    
     def get_info(self):
         product_info = get_wb_price(self.url)
 
-        if product_info and product_info["price"]:
-            price = product_info["price"]
-            price_discount = product_info["price_discount"]
-            
-            return (
-                f"Цена с WB кошельком: {price_discount}\n"
-                f"Цена без скидки: {price}\n\n"
-                "Приятных покупок!)"
-            )
-        else:
-            return "Данная манга не продаётся или закончилась на складе 😢"
-        
+        if product_info["price"]:
+            return f"Цена на Wildberries: {product_info['price']}\n\nПриятных покупок!)"
+        return "Не удалось получить цену на Wildberries."
+
 def send_marketplace_info(chat_id, marketplace_obj, bot):
     markup = types.InlineKeyboardMarkup()
     button_menu = types.InlineKeyboardButton(text='Вернуться в меню', callback_data='menu')
@@ -86,85 +69,62 @@ def send_marketplace_info(chat_id, marketplace_obj, bot):
 
     caption = marketplace_obj.get_info()
 
-    bot.send_photo(
-        chat_id, 
-        photo=marketplace_obj.photo, 
-        caption=caption, 
-        reply_markup=markup
-    )
+    with BytesIO(marketplace_obj.photo) as photo:
+        bot.send_photo(chat_id, photo=photo, caption=caption, reply_markup=markup)
 
 def handle_yandex_place(chat_id):
     key = user_state.get(chat_id)
     photo = dif_photos[key]["yandex"]
-    soup = toms_soup[key]["yandex"]
     url = tom[key]["urls"]["yandex"]
 
-    yandex = YandexMarketplace(photo, soup, url)
+    yandex = YandexMarketplace(photo, url)
     send_marketplace_info(chat_id, yandex, botJujutsuKaisen)
 
 def handle_ozon_place(chat_id):
     key = user_state.get(chat_id)
     photo = dif_photos[key]["ozon"]
-    soup = toms_soup[key]["ozon"]
     url = tom[key]["urls"]["ozon"]
         
-    ozon = OzonMarketplace(photo, soup, url)
+    ozon = OzonMarketplace(photo, url)
     send_marketplace_info(chat_id, ozon, botJujutsuKaisen)
 
 def handle_wildberries_place(chat_id):
     key = user_state.get(chat_id)
     photo = dif_photos[key]["wildberries"]
-    soup = toms_soup[key]["wildberries"]
     url = tom[key]["urls"]["wildberries"]
 
-    wb = WildberriesMarketplace(photo, soup, url)
+    wb = WildberriesMarketplace(photo, url)
     send_marketplace_info(chat_id, wb, botJujutsuKaisen)
         
+def open_chromium():
+    options = ChromiumOptions().headless().auto_port()
+    if os.getenv("CHROMIUM_NO_SANDBOX") == "1":
+        options.set_argument("--no-sandbox")
+    browser_path = which("chromium")
+    if browser_path:
+        options.set_browser_path(browser_path)
+    return ChromiumPage(options)
+
+
 def get_wb_price(product_url):
-    dp = ChromiumPage()
-    """co = ChromiumOptions()
-    co.set_argument('--headless=new')
-    co.set_argument('--disable-blink-features=AutomationControlled')
-    co.set_argument('--blink-settings=imagesEnabled=false')
-    co.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    
-    try:
-        dp = ChromiumPage(co)
-    except TypeError:
-        dp = ChromiumPage(options=co)"""
-    
+    dp = open_chromium()
+
     try:
         dp.get(product_url, timeout=5)
         try:
             #dp.wait(50)
             price = dp.ele('xpath://span[@class="mo-typography mo-typography_variant_description mo-typography_variable-weight_description mo-typography_color_primary priceBlockFinalPrice--aBPT6"]', timeout=5).text.strip()
-            #price_discount = dp.ele('xpath://span[@class="mo-typography mo-typography_variant_description mo-typography_variable-weight_description mo-typography_color_accent priceBlockWalletPrice--S1HE9"]', timeout=5).text.strip()
-            price_discount = "1"
         except Exception:
-            price = "Цена не найдена"
-            price_discount = "Цена не найдена"
-        
-        return {
-            "price": price,
-            "price_discount": price_discount
-        }
-    
+            price = None
+
+        return {"price": price}
+
     finally:
         dp.quit()
     
 def get_ozon_price(product_url):
-    #dp = ChromiumPage(options=co)
-    co = ChromiumOptions()
-    co.set_argument('--headless=new')
-    co.set_argument('--disable-blink-features=AutomationControlled')
-    co.set_argument('--blink-settings=imagesEnabled=false')
-    co.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    
-    try:
-        dp = ChromiumPage(co)
-    except TypeError:
-        dp = ChromiumPage(options=co)
-    
+    dp = open_chromium()
+
     try:
         dp.get(product_url, timeout=5)
         
@@ -183,8 +143,8 @@ def get_ozon_price(product_url):
             price = dp.ele('.tsHeadline600Large', timeout=5).text.strip()
             price_discount = dp.ele('xpath://span[@class="pdp_f7b tsHeadline500Medium"]', timeout=5).text.strip()
         except Exception:
-            price = "Цена не найдена"
-            price_discount = "Цена не найдена"
+            price = None
+            price_discount = None
         
         return {
             "price": price,
@@ -195,18 +155,8 @@ def get_ozon_price(product_url):
         dp.quit()
         
 def get_yandex_price(product_url):
-    #dp = ChromiumPage()
-    co = ChromiumOptions()
-    co.set_argument('--headless=new')
-    co.set_argument('--disable-blink-features=AutomationControlled')
-    co.set_argument('--blink-settings=imagesEnabled=false')
-    co.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    
-    try:
-        dp = ChromiumPage(co)
-    except TypeError:
-        dp = ChromiumPage(options=co)
-    
+    dp = open_chromium()
+
     try:
         dp.get(product_url, timeout=5)
         
@@ -220,8 +170,8 @@ def get_yandex_price(product_url):
             price_discount = round(price_discount * 1.01)
             
         except Exception:
-            price = "Цена не найдена"
-            price_discount = "Цена не найдена"
+            price = None
+            price_discount = None
         
         return {
             "price": price,

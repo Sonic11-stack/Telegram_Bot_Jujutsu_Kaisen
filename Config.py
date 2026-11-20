@@ -1,13 +1,16 @@
-import telebot
 import os
-from dotenv import load_dotenv
-import requests
-from lxml import html
-from io import BytesIO
-from bs4 import BeautifulSoup
+from pathlib import Path
 
-load_dotenv()
-botJujutsuKaisen = telebot.TeleBot(os.getenv("botKey"))
+import telebot
+from dotenv import load_dotenv
+
+PROJECT_DIR = Path(__file__).resolve().parent
+load_dotenv(PROJECT_DIR / ".env")
+bot_token = os.getenv("botKey", "").strip()
+if not bot_token:
+    raise SystemExit("Укажите токен Telegram-бота в переменной botKey.")
+
+botJujutsuKaisen = telebot.TeleBot(bot_token)
 
 tom = { 
     "0": { "info": "Отлично, вы выбрали 0 том манги 'Магическая битва. Кн. 0. Ослепительная тьма. | Акутами Гэгэ'!",
@@ -207,130 +210,130 @@ tom = {
 photos = {
     "0": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Null_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Null_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "1": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/First_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/First_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "2": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Second_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Second_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "3": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Third_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Third_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "4": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fourth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Fourth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "5": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fifth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Fifth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "6": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Sixth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Sixth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "7": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Seventh_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Seventh_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "8": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Eighth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Eighth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "9": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ninth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Ninth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "10": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Tenth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Tenth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "11": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Eleventh_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Eleventh_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "12": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Twelfth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Twelfth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "13": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Thirteenth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Thirteenth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "14": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fourteenth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Fourteenth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     },
     "15": {
         "photos": {
-            "manga": "../Telegram_Bot_Jujutsu_Kaisen/Images/Fifteenth_Tom.png",
-            "yandex": "../Telegram_Bot_Jujutsu_Kaisen/Images/Yandex_Market_Logo.png",
-            "ozon": "../Telegram_Bot_Jujutsu_Kaisen/Images/Ozon.png",
-            "wildberries": "../Telegram_Bot_Jujutsu_Kaisen/Images/Wildberries.png"
+            "manga": "Images/Fifteenth_Tom.png",
+            "yandex": "Images/Yandex_Market_Logo.png",
+            "ozon": "Images/Ozon.png",
+            "wildberries": "Images/Wildberries.png"
         }
     } 
 }
@@ -338,23 +341,9 @@ photos = {
 user_state = {} 
 user_text = {}
 dif_photos = {}
-file_ids = {}
-
 
 for key, value in photos.items():
-    dif_photos[key] = {}
-    for photo_key, path in value["photos"].items():
-        with open(path, "rb") as f:
-            dif_photos[key][photo_key] = BytesIO(f.read())
-        
-toms_urls_bytes = {}
-toms_soup = {}
-for key, value in tom.items():
-    toms_urls_bytes[key] = {}
-    toms_soup[key] = {}
-    for market, url in value["urls"].items():  
-        response = requests.get(url)
-        html = response.content
-        soup = BeautifulSoup(html, 'html.parser')
-        toms_urls_bytes[key][market] = html
-        toms_soup[key][market] = soup
+    dif_photos[key] = {
+        photo_key: (PROJECT_DIR / path).read_bytes()
+        for photo_key, path in value["photos"].items()
+    }

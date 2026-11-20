@@ -1,3 +1,5 @@
+from io import BytesIO
+
 from telebot import types
 from Config import botJujutsuKaisen, user_state, user_text, tom, dif_photos
 from Processing_Search_Price import handle_yandex_place, handle_ozon_place, handle_wildberries_place
@@ -122,36 +124,32 @@ def handle_choice_marketplace (bot_service, chat_id):
         "Теперь выберите маркетплейс"
     )
     
-@botJujutsuKaisen.message_handler(func=lambda message: message.text in tom.keys())
+@botJujutsuKaisen.message_handler(
+    func=lambda message: user_state.get(message.chat.id) == "wait_writting",
+    content_types=["text"],
+)
 def select_tom(message):
-  chat_id = message.chat.id
-  if user_state.get(chat_id) == "wait_writting":
-      photo = dif_photos[message.text]["manga"]
-      first_mess = tom[message.text]["info"]
-      user_state[message.chat.id] = message.text
-      
-      markup = types.InlineKeyboardMarkup()
-      button_choice = types.InlineKeyboardButton(
-          text='Узнать цены на маркетплейсах', 
-          callback_data='choice_marketplace'
-      )
-      
-      markup.add(button_choice)
-      
-      photo.seek(0)
-      
-      botJujutsuKaisen.send_photo(
-        message.chat.id,
-        photo=photo, 
-        caption=first_mess, 
-        reply_markup=markup
-      )
-  else:
-      botJujutsuKaisen.send_message(
-          chat_id, 
-          "Пожалуйста, введите число."
-      )
-    
+    chat_id = message.chat.id
+    volume = message.text.strip()
+    if volume not in tom:
+        botJujutsuKaisen.send_message(chat_id, "Введите номер тома от 0 до 15.")
+        return
+
+    user_state[chat_id] = volume
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton(
+        text="Узнать цены на маркетплейсах",
+        callback_data="choice_marketplace",
+    ))
+    with BytesIO(dif_photos[volume]["manga"]) as photo:
+        botJujutsuKaisen.send_photo(
+            chat_id,
+            photo=photo,
+            caption=tom[volume]["info"],
+            reply_markup=markup,
+        )
+
+
 handles =  {
     "yes": lambda chat_id: handle_yes(bot_service, chat_id),
     "no": lambda chat_id: handle_no(bot_service, chat_id),
